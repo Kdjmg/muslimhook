@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:muslimhook/color_provider.dart';
@@ -132,7 +131,7 @@ class _DetailsOfQuranState extends State<DetailsOfQuran> {
 
   Future<void> fetchData() async {
     final response = await http.get(Uri.parse(
-        "https://api.alquran.cloud/v1/surah/${widget.quranDetails.number}/ar.saoodshuraym"));
+        "https://api.alquran.cloud/v1/surah/${widget.quranDetails.number}/ar.abdurrahmaansudais"));
 
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
@@ -150,10 +149,17 @@ class _DetailsOfQuranState extends State<DetailsOfQuran> {
     }
   }
 
+  int currentIndex = 0;
   Future<void> playAudio(int index) async {
     if (index >= 0 && index < sourate.length) {
       // ignore: unnecessary_cast
       await audioPlayer.play(UrlSource(sourate[index].audio as String));
+      audioPlayer.onPlayerComplete.listen((event) {
+        currentIndex++;
+        if (currentIndex < sourate.length) {
+          playAudio(currentIndex);
+        }
+      });
     }
   }
 
@@ -185,7 +191,8 @@ class _DetailsOfQuranState extends State<DetailsOfQuran> {
                     ),
                   ),
                   onTap: () {
-                    playAudio(index);
+                    currentIndex = index;
+                    playAudio(currentIndex);
                   },
                 );
               },
