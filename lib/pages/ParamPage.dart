@@ -6,8 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../app_data.dart';
 import '../color_provider.dart';
-import '../prayer_timings.dart';
-import '../pages/HomePage.dart';
+import '../prayer_timings_list_of_quran.dart';
 import 'dart:convert';
 
 void main() async {
@@ -20,7 +19,7 @@ void main() async {
             create: (context) => ColorProvider(prefs)..loadSavedColors()),
         ChangeNotifierProvider(create: (context) => AppDataProvider()),
       ],
-      child: MaterialApp(home: ParamPage()),
+      child: const MaterialApp(home: ParamPage()),
     ),
   );
 }
@@ -43,11 +42,11 @@ class _ParamPageState extends State<ParamPage> {
     const MapEntry(' Muslim World League', 3),
     const MapEntry('Umm Al-Qura University, La Mecque', 4),
     const MapEntry('Autorité générale égyptienne des levés', 5),
-    const MapEntry('Institut de géophysique, Université de Téhéran', 6),
-    const MapEntry('Région du Golfe', 7),
-    const MapEntry('Koweït', 8),
-    const MapEntry('Qatar', 9),
-    const MapEntry(' Majlis Ugama Islam Singapura, Singapour', 10),
+    const MapEntry('Institut de géophysique, Université de Téhéran', 7),
+    const MapEntry('Région du Golfe', 8),
+    const MapEntry('Koweït', 9),
+    const MapEntry('Qatar', 10),
+    const MapEntry(' Majlis Ugama Islam Singapura, Singapour', 11),
     const MapEntry('Union Organisation islamique de France', 12),
     const MapEntry('Diyanet İşleri Başkanlığı, Turquie', 13),
     const MapEntry('Administration spirituelle des musulmans de Russie', 14),

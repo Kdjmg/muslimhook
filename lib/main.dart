@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:muslimhook/pages/HomePage.dart';
 import 'package:muslimhook/pages/ParamPage.dart';
+import 'package:muslimhook/pages/SecondPage.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'app_data.dart';
@@ -33,6 +34,7 @@ class _MyAppState extends State<MyApp> {
           backgroundColor: Provider.of<ColorProvider>(context).selectedSvgColor,
           title: [
             const Text("Heure de prières"),
+            const Text("Coran"),
             const Text("Configuration")
           ][_currentIndex],
         ),
@@ -41,6 +43,7 @@ class _MyAppState extends State<MyApp> {
             selectedSvgColor: colorProvider.selectedSvgColor,
             selectedMethodValue: 0,
           ),
+           SecondPage(selectedSvgColor: colorProvider.selectedSvgColor,),
           const ParamPage(),
         ][_currentIndex],
         bottomNavigationBar: BottomNavigationBar(
@@ -54,6 +57,9 @@ class _MyAppState extends State<MyApp> {
               icon: Icon(Icons.home_filled),
               label: "heures de prières",
             ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.book),
+              label:"Coran"),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),
               label: "configuration",

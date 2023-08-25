@@ -6,10 +6,27 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../color_provider.dart';
-import '../prayer_timings.dart';
+import '../prayer_timings_list_of_quran.dart';
 import 'dart:convert';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ColorProvider(prefs)..loadSavedColors(),
+      child: const MaterialApp(
+          home: HomePage(
+            selectedSvgColor: Colors.blueAccent,
+            selectedMethodValue: 0
+          )),
+    ),
+  );
+}
+
 
 class HomePage extends StatefulWidget {
   const HomePage(
@@ -31,6 +48,25 @@ class _HomePageState extends State<HomePage> {
   late Timer timer;
   PrayerTimings? prayerTimings;
   Position? currentLocation;
+  int selectedMethodIndex = 0;
+  List<MapEntry<String, int>> angle = [
+    const MapEntry('method0', 0),
+    const MapEntry('method1', 1),
+    const MapEntry('method2', 2),
+    const MapEntry('method3', 3),
+    const MapEntry('method4', 4),
+    const MapEntry('method5', 5),
+    const MapEntry('method6', 6),
+    const MapEntry('method7', 7),
+    const MapEntry('method8', 8),
+    const MapEntry('method9', 9),
+    const MapEntry('method10', 10),
+    const MapEntry('method11', 12),
+    const MapEntry('method13', 13),
+    const MapEntry('method14', 14),
+    const MapEntry('method15', 15),
+    const MapEntry('method16', 16),
+  ];
   late int selectedMethodValue;
 
   @override
@@ -97,7 +133,7 @@ class _HomePageState extends State<HomePage> {
     final now = DateTime.now();
     final formatDate =
         '${now.day.toString().padLeft(2, '0')}-${now.month.toString().padLeft(2, '0')}-${now.year}';
-
+final selectedMethodValue = angle[selectedMethodIndex].value;
     final response = await http.get(
       Uri.parse(
           "http://api.aladhan.com/v1/timings/$formatDate?latitude=$latitude&longitude=$longitude&method=$selectedMethodValue"),
@@ -245,17 +281,3 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => ColorProvider(prefs)..loadSavedColors(),
-      child: const MaterialApp(
-          home: HomePage(
-            selectedSvgColor: Colors.blueAccent,
-            selectedMethodValue: 0,
-          )),
-    ),
-  );
-}
